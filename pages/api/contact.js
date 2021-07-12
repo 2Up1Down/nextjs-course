@@ -41,9 +41,18 @@ async function handler(req, res) {
   if (req.method === "GET") {
     const { db } = await connectToDatabase();
 
-    const messages = await db.collection("messages").find({});
+    try {
+      const messages = await db
+        .collection("messages")
+        .find({})
+        .limit(10)
+        .toArray();
 
-    res.json(messages);
+      res.status(200).json(messages);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "something failed - WS" });
+    }
   }
 }
 
