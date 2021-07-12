@@ -38,18 +38,13 @@ async function handler(req, res) {
       .json({ message: "Successfully stored message!", message: newMessage });
   }
 
-  // if (req.method === "GET") {
-  //   const { db } = await connectToDatabase();
+  if (req.method === "GET") {
+    const { db } = await connectToDatabase();
 
-  //   const movies = await db
-  //     .collection("movies")
-  //     .find({})
-  //     .sort({ metacritic: -1 })
-  //     .limit(20)
-  //     .toArray();
+    const messages = await db.collection("messages").find({});
 
-  //   res.json(movies);
-  // }
+    res.json(messages);
+  }
 }
 
 export default handler;
